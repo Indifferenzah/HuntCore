@@ -1,6 +1,6 @@
-<div align="center">
-# HuntCore
+# <p align="center">HuntCore</p>
 
+<div align="center">
   <img src="https://i.imgur.com/oJ5GiU0.png" alt="HuntCore Logo"/>
 
 **Manhunt game plugin for Paper 1.21.1**
