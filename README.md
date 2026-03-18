@@ -1,8 +1,7 @@
 <div align="center">
-
-<img src="https://i.imgur.com/oJ5GiU0.png" alt="HuntCore Logo" width="180"/>
-
 # HuntCore
+
+  <img src="https://i.imgur.com/oJ5GiU0.png" alt="HuntCore Logo"/>
 
 **Manhunt game plugin for Paper 1.21.1**
 
@@ -19,8 +18,6 @@
 
 **HuntCore** is a fully-featured **Manhunt** game plugin for Paper 1.21.1.
 Runners try to mine a hidden block of crying obsidian — Hunters must eliminate them all before they succeed.
-
-> 📸 **[SCREENSHOT — lobby with cage + compass vote UI]** ← insert here
 
 ---
 
@@ -41,8 +38,6 @@ Runners try to mine a hidden block of crying obsidian — Hunters must eliminate
 - **Per-state tab list** — different header/footer/name format for lobby, running, and post-game
 - **Boss bar** — live game info displayed in the boss bar during the game
 - **Team nametag** — `[RUNNER]` / `[HUNTER]` prefix shown above every player's head
-
-> 📸 **[SCREENSHOT — in-game scoreboard + nametag prefixes visible]** ← insert here
 
 ### 🛠️ Admin Tools
 - Start/stop the game at any time with `/game start` or `/game stop`
@@ -111,8 +106,6 @@ nametag:
 
 </details>
 
-> 📸 **[SCREENSHOT — `/stats` output in chat]** ← insert here
-
 ---
 
 ## 🎯 How to Play
@@ -124,10 +117,6 @@ nametag:
 5. **Runners** must find and mine the crying obsidian block to win
 6. **Hunters** must eliminate all runners before that happens
 7. After the game, everyone is teleported to the end spawn and stats are saved
-
-> 📸 **[SCREENSHOT — countdown + freeze actionbar message]** ← insert here
-
-> 📸 **[SCREENSHOT — end-game tab list with final stats]** ← insert here
 
 ---
 
