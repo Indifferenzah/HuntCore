@@ -1,0 +1,218 @@
+# ── General ──────────────────────────────────────────────────
+spawn-radius: 2000
+hunter-freeze-seconds: 30
+post-vote-delay-seconds: 15
+max-hunter-ratio: 0.75
+compass-update-interval: 40
+pvp-enabled: true
+
+# Fixed cage location (used during lobby phase)
+cage-x: 0
+cage-y: 300
+cage-z: 0
+
+# Saved by /setspawn block, /setspawn hunters, /setspawn end
+spawns:
+  block:
+    world: "world"
+    x: 0.0
+    y: 64.0
+    z: 0.0
+  hunters:
+    world: "world"
+    x: 0.0
+    y: 64.0
+    z: 0.0
+  end:
+    world: "world"
+    x: 0.0
+    y: 64.0
+    z: 0.0
+
+# ── Chat format ───────────────────────────────────────────────
+chat:
+  format-no-team:   "&7%player% &8» &f%message%"
+  format-runner:    "%team_prefix% &b%player% &8» &f%message%"
+  format-hunter:    "%team_prefix% &c%player% &8» &f%message%"
+
+# ── Tab list (during game - RUNNING state) ────────────────────
+tab:
+  enabled: true
+  update-interval: 40
+  header:
+    - "&c&lManHunt"
+    - "&7%game_state%"
+    - ""
+    - "&eRunner: &b%runners_alive%&7/&b%runners_total%"
+    - "&cHunters: &c%hunters_total%"
+  footer:
+    - ""
+    - "&7Kill: &f%player_kills%  &7Morti: &f%player_deaths%"
+    - "&7Team: %team_colored%"
+    - ""
+  show-health: true
+  show-team-prefix: true
+  name-format-no-team:  "&7%player_name%"
+  name-format-runner:   "&b[RUNNER] &b%player_name%%health_suffix%"
+  name-format-hunter:   "&c[HUNTER] &c%player_name%%health_suffix%"
+  health-suffix-format: " &c❤ &f%health%"
+
+# ── Tab list (lobby/countdown) ────────────────────────────────
+tab-lobby:
+  enabled: true
+  header:
+    - "&c&lManHunt &8- &7Lobby"
+    - ""
+    - "&eGiocatori: &f%online_count%"
+    - "&eVoti: &f%votes_count%&7/&f%online_count%"
+  footer:
+    - ""
+    - "&7Scegli il tuo team con la bussola!"
+    - ""
+  name-format-no-team:  "&7%player_name% &8(&7non ha votato&8)"
+  name-format-runner:   "&b[RUNNER] &b%player_name%"
+  name-format-hunter:   "&c[HUNTER] &c%player_name%"
+
+# ── Tab list (ended) ─────────────────────────────────────────
+tab-ended:
+  enabled: true
+  header:
+    - "&c&lManHunt"
+    - "&aPartita terminata!"
+    - ""
+    - "&7Statistiche finali"
+  footer:
+    - ""
+    - "&7Kill: &f%player_kills%  &7Morti: &f%player_deaths%"
+    - "&7K/D: &f%player_kd%"
+    - ""
+
+# ── Scoreboard (during game - RUNNING state) ──────────────────
+scoreboard:
+  enabled: true
+  update-interval: 20
+  title: "&c&lManHunt"
+  lines:
+    - "&7%date%"
+    - ""
+    - "&eTeam: %team_colored%"
+    - ""
+    - "&ePartita: &f%game_state%"
+    - "&eTempo: &f%game_timer%"
+    - "&eRunner vivi: &b%runners_alive%&7/&b%runners_total%"
+    - "&eHunters: &c%hunters_total%"
+    - ""
+    - "&eTue kill: &f%player_kills%"
+    - "&eTue morti: &f%player_deaths%"
+    - "&eK/D: &f%player_kd%"
+    - ""
+    - "&ePvP: %pvp_status%"
+
+# ── Scoreboard (lobby/countdown) ─────────────────────────────
+scoreboard-lobby:
+  enabled: true
+  title: "&e&lLOBBY"
+  lines:
+    - "&7%date%"
+    - ""
+    - "&eStato: &fIn attesa"
+    - "&eGiocatori: &f%online_count%"
+    - "&eVoti: &f%votes_count%&7/&f%online_count%"
+    - ""
+    - "&eTeam: %team_colored%"
+    - ""
+    - "&7Clicca la bussola"
+    - "&7per scegliere il team!"
+
+# ── Scoreboard (ended) ───────────────────────────────────────
+scoreboard-ended:
+  enabled: true
+  title: "&a&lFINE PARTITA"
+  lines:
+    - "&7%date%"
+    - ""
+    - "&eTue kill: &f%player_kills%"
+    - "&eTue morti: &f%player_deaths%"
+    - "&eK/D: &f%player_kd%"
+    - ""
+    - "&eVittorie: &f%player_wins%"
+    - "&eSconfitte: &f%player_losses%"
+    - "&ePartite: &f%player_games%"
+
+# ── Bossbar ───────────────────────────────────────────────────
+bossbar:
+  enabled: true
+  text: "&c⚔ Manhunt &8| &eRunner: &b%runners_alive%&8/&b%runners_total% &8| &cHunters: &c%hunters_total% &8| &7%game_timer%"
+  color: "RED"
+  style: "SOLID"
+
+# ── Glow ─────────────────────────────────────────────────────
+glow-runners-after-minutes: 30
+
+# ── Titles ────────────────────────────────────────────────────
+titles:
+  game-start:
+    title:    "&c&lMANHUNT"
+    subtitle: "&7La caccia ha inizio!"
+    fade-in:  10
+    stay:     50
+    fade-out: 10
+  runners-win:
+    title:    "&b&l» RUNNERS WIN «"
+    subtitle: "&7Il blocco è stato minato!"
+    fade-in:  10
+    stay:     70
+    fade-out: 20
+  hunters-win:
+    title:    "&c&l» HUNTERS WIN «"
+    subtitle: "&7Tutti i runners sono stati eliminati!"
+    fade-in:  10
+    stay:     70
+    fade-out: 20
+  runner-eliminated:
+    title:    "&c&lELIMINATO"
+    subtitle: "&7Sei ora in spectator."
+    fade-in:  5
+    stay:     40
+    fade-out: 10
+
+# ── Sounds ────────────────────────────────────────────────────
+sounds:
+  game-start:         "ENTITY_ENDER_DRAGON_GROWL"
+  runners-win:        "UI_TOAST_CHALLENGE_COMPLETE"
+  hunters-win:        "ENTITY_WITHER_SPAWN"
+  runner-eliminated:  "ENTITY_PLAYER_DEATH"
+  volume: 1.0
+  pitch:  1.0
+
+# ── Messages ──────────────────────────────────────────────────
+messages:
+  prefix:             "&8[&cHuntCore&8] "
+  game-start:         "&aLa partita è iniziata! Runners correte, Hunters cacciate!"
+  hunters-win:        "&cGli Hunters hanno vinto! Tutti i runners sono stati eliminati."
+  runners-win:        "&aI Runners hanno vinto! Il blocco è stato minato."
+  hunter-freeze:      "&cSei bloccato per &e{seconds} &csecondi!"
+  hunter-unfreeze:    "&aVia! Caccia!"
+  runner-eliminated:  "&c{player} è stato eliminato e va in spectator!"
+  runner-respawned:   "&a{player} è stato rispawnato da un admin!"
+  vote-reminder:      "&eClicca la bussola per scegliere il tuo team!"
+  vote-countdown:     "&aLa partita inizia tra &e{seconds} &asecondi..."
+  vote-changed:       "&e{player} &7ha cambiato team. Countdown riavviato!"
+  pvp-enabled:        "&aIl PvP è stato abilitato."
+  pvp-disabled:       "&cIl PvP è stato disabilitato."
+  team-set:           "&aTeam di &e{player} &aimpostato a &e{team}&a."
+  team-cleared:       "&aTeam di &e{player} &areimpostato."
+  team-forced-runner: "&eNon c'era spazio tra gli Hunters, sei stato assegnato ai &bRunner&e."
+  game-already-running: "&cUna partita è già in corso."
+  game-not-running:   "&cNessuna partita in corso."
+  no-block-spawn-set: "&cPunto spawn blocco non impostato. Usa /setspawn block prima."
+  spawn-set:          "&aSpawn &e{type} &aimpostato alla tua posizione."
+  db-cleared:         "&aDatabase resettato con successo."
+  player-not-found:   "&cGiocatore non trovato."
+  player-not-runner:  "&c{player} non è un runner."
+  reload-success:     "&aConfigurazione ricaricata."
+
+# ── Nametag ────────────────────────────────────────────────────
+nametag:
+  runner-prefix: "&b[RUNNER] "
+  hunter-prefix: "&c[HUNTER] "

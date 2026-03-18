@@ -1,0 +1,32 @@
+name: HuntCore
+version: 1.0.0
+main: com.indifferenzah.huntcore.plugin.HuntCore
+api-version: "1.21"
+author: Indifferenzah
+description: Manhunt-style game plugin for Paper 1.21.1
+
+permissions:
+  huntcore.admin:
+    description: Full admin access to HuntCore
+    default: op
+    children:
+      huntcore.teams: true
+      huntcore.pvp: true
+      huntcore.game: true
+      huntcore.setspawn: true
+      huntcore.respawn: true
+  huntcore.teams:
+    description: Manage player teams
+    default: op
+  huntcore.pvp:
+    description: Toggle PvP
+    default: op
+  huntcore.game:
+    description: Start/stop the game
+    default: op
+  huntcore.setspawn:
+    description: Set spawn points
+    default: op
+  huntcore.respawn:
+    description: Respawn eliminated runners
+    default: op
