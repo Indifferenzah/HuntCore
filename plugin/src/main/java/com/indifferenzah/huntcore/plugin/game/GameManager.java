@@ -242,29 +242,37 @@ public class GameManager implements IGameManager {
         cryingObsidianLocation = beaconBuilder.buildPyramid(blockSpawn);
 
         List<Player> hunters = new ArrayList<>();
+        List<Player> runners = new ArrayList<>();
 
         for (Player player : players) {
             PlayerData data = dataLoader.getPlayerData(player);
-            Location spawnLoc = spawnMap.getOrDefault(player.getUniqueId(),
-                    LocationUtils.getRandomSpawnLocation(blockSpawn, config.getSpawnRadius()));
+            Location spawnLoc = spawnMap.getOrDefault(player.getUniqueId(), gameSpawnLocation);
             data.setSpawnLocation(spawnLoc);
             player.teleport(spawnLoc);
 
             data.addGame();
-            if (data.getTeam() == Team.RUNNER) data.addRunnerGame();
+            if (data.getTeam() == Team.RUNNER) { data.addRunnerGame(); runners.add(player); }
             else { data.addHunterGame(); hunters.add(player); }
-
-            giveHuntCompass(player);
         }
 
         // Start compass task
         compassTask = new CompassTask(plugin, this, dataLoader, config);
         compassTask.runTaskTimer(plugin, 0L, config.getCompassUpdateInterval());
 
-        // Freeze hunters
+        // Freeze hunters (clears their inventory)
         freezeTask = new FreezeTask(dataLoader, config, hunters);
         freezeTask.freezeAll();
         freezeTask.runTaskTimer(plugin, 20L, 20L); // every second
+
+        // Clear runners' inventory and give compass → crying obsidian
+        for (Player runner : runners) {
+            runner.getInventory().clear();
+            giveHuntCompass(runner);
+        }
+        // Give compass to hunters AFTER freeze cleared their inventory
+        for (Player hunter : hunters) {
+            giveHuntCompass(hunter);
+        }
 
         // Bossbar
         if (bossBarManager != null && config.isBossbarEnabled()) {
@@ -434,7 +442,7 @@ public class GameManager implements IGameManager {
         player.getInventory().setItem(COMPASS_SLOT, compass);
     }
 
-    private void giveHuntCompass(Player player) {
+    public void giveHuntCompass(Player player) {
         // Remove vote compass before giving hunt compass
         clearCompasses(player);
         ItemStack compass = buildCompass("&eBussola");

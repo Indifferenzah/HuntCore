@@ -5,6 +5,7 @@ import com.indifferenzah.huntcore.api.model.PlayerData;
 import com.indifferenzah.huntcore.api.model.Team;
 import com.indifferenzah.huntcore.plugin.data.PlayerDataLoader;
 import com.indifferenzah.huntcore.plugin.game.GameManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,15 +19,23 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class GameListener implements Listener {
 
     private final GameManager gameManager;
     private final PlayerDataLoader dataLoader;
+    private final JavaPlugin plugin;
+    private final Map<UUID, Location> deathLocations = new HashMap<>();
 
-    public GameListener(GameManager gameManager, PlayerDataLoader dataLoader) {
+    public GameListener(GameManager gameManager, PlayerDataLoader dataLoader, JavaPlugin plugin) {
         this.gameManager = gameManager;
         this.dataLoader = dataLoader;
+        this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -121,7 +130,13 @@ public class GameListener implements Listener {
         Player player = event.getEntity();
         PlayerData data = dataLoader.getPlayerData(player);
 
-        if (data.getTeam() == Team.RUNNER) {
+        // Save death location so respawn can teleport back here
+        deathLocations.put(player.getUniqueId(), player.getLocation());
+
+        if (data.getTeam() == Team.HUNTER) {
+            // Remove compass from drops so hunter keeps it on respawn
+            event.getDrops().removeIf(item -> item != null && item.getType() == Material.COMPASS);
+        } else if (data.getTeam() == Team.RUNNER) {
             gameManager.eliminateRunner(player);
 
             Player killer = event.getEntity().getKiller();
@@ -133,12 +148,32 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        if (gameManager.getGameState() != GameState.RUNNING) return;
         Player player = event.getPlayer();
+        Location deathLoc = deathLocations.remove(player.getUniqueId());
+
+        // If the game is no longer running but the player has a pending death location,
+        // respawn there (died just before/during game end)
+        if (gameManager.getGameState() != GameState.RUNNING) {
+            if (deathLoc != null) event.setRespawnLocation(deathLoc);
+            return;
+        }
+
         PlayerData data = dataLoader.getPlayerData(player);
-        if (data.getTeam() != Team.HUNTER) return;
-        Location spawnLoc = gameManager.getGameSpawnLocation();
-        if (spawnLoc != null) event.setRespawnLocation(spawnLoc);
+        Team team = data.getTeam();
+        if (team != Team.HUNTER && team != Team.RUNNER) return;
+
+        if (team == Team.RUNNER) {
+            // Runners always respawn at death location
+            if (deathLoc != null) event.setRespawnLocation(deathLoc);
+        } else {
+            // Hunters: respawn at bed if set, otherwise game spawn
+            if (player.getRespawnLocation() == null) {
+                Location spawnLoc = gameManager.getGameSpawnLocation();
+                if (spawnLoc != null) event.setRespawnLocation(spawnLoc);
+            }
+            // Re-give compass after respawn (inventory is cleared on death)
+            Bukkit.getScheduler().runTaskLater(plugin, () -> gameManager.giveHuntCompass(player), 1L);
+        }
     }
 
     private boolean isSameBlock(Location a, Location b) {

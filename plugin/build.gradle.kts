@@ -20,7 +20,7 @@ dependencies {
 
 tasks.shadowJar {
     archiveBaseName.set("HuntCore")
-    archiveVersion.set("1.1.2")
+    archiveVersion.set("1.0.0")
     archiveClassifier.set("")
     relocate("io.github.revxrsal.lamp", "com.indifferenzah.huntcore.lib.lamp")
     relocate("org.h2", "com.indifferenzah.huntcore.lib.h2")

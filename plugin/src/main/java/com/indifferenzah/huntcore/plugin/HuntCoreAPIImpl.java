@@ -57,7 +57,7 @@ public class HuntCoreAPIImpl extends HuntCoreAPI {
         // 6. Register listeners
         var pm = plugin.getServer().getPluginManager();
         pm.registerEvents(new LobbyListener(gameManager, dataLoader, scoreboardManager, tabManager, bossBarManager), plugin);
-        pm.registerEvents(new GameListener(gameManager, dataLoader), plugin);
+        pm.registerEvents(new GameListener(gameManager, dataLoader, plugin), plugin);
         pm.registerEvents(new ChatListener(gameManager, dataLoader, config), plugin);
         pm.registerEvents(new PlayerMoveListener(dataLoader), plugin);
 

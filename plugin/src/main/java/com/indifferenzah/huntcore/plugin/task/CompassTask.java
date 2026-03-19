@@ -48,15 +48,9 @@ public class CompassTask extends BukkitRunnable {
                 }
 
             } else if (data.getTeam() == Team.RUNNER) {
-                // Runners: compass → away from nearest hunter
-                Player nearestHunter = getNearestHunter(player);
-                if (nearestHunter != null) {
-                    Location playerLoc = player.getLocation();
-                    Location hunterLoc = nearestHunter.getLocation();
-                    double dx = playerLoc.getX() - hunterLoc.getX();
-                    double dz = playerLoc.getZ() - hunterLoc.getZ();
-                    player.setCompassTarget(playerLoc.clone().add(dx * 10, 0, dz * 10));
-                }
+                // Runners: compass → crying obsidian (objective)
+                Location obj = gameManager.getCryingObsidianLocation();
+                if (obj != null) player.setCompassTarget(obj);
             }
         }
     }
@@ -77,19 +71,5 @@ public class CompassTask extends BukkitRunnable {
         return nearest;
     }
 
-    private Player getNearestHunter(Player runner) {
-        Player nearest = null;
-        double minDist = Double.MAX_VALUE;
-        for (Player p : org.bukkit.Bukkit.getOnlinePlayers()) {
-            PlayerData d = dataLoader.getPlayerData(p);
-            if (d.getTeam() == Team.HUNTER) {
-                double dist = p.getLocation().distanceSquared(runner.getLocation());
-                if (dist < minDist) {
-                    minDist = dist;
-                    nearest = p;
-                }
-            }
-        }
-        return nearest;
-    }
+
 }
